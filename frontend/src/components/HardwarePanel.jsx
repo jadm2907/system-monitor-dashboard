@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getPerformanceMetrics, getDiskInfo } from '../services/systemService';
+import { getPerformanceMetrics, getDiskUsage } from '../services/systemService';
 import '../styles/Components.css';
 
-const HardwarePanel = ({ systemData }) => {
+const HardwarePanel = ({ systemData, realTimeData, diskUsage }) => {
   const [performanceData, setPerformanceData] = useState(null);
-  const [diskInfo, setDiskInfo] = useState(null);
 
   useEffect(() => {
     loadPerformanceData();
-    loadDiskInfo();
     
     const interval = setInterval(() => {
       loadPerformanceData();
@@ -20,11 +18,6 @@ const HardwarePanel = ({ systemData }) => {
   const loadPerformanceData = async () => {
     const data = await getPerformanceMetrics();
     setPerformanceData(data);
-  };
-
-  const loadDiskInfo = async () => {
-    const data = await getDiskInfo();
-    setDiskInfo(data);
   };
 
   if (!systemData || !performanceData) {
@@ -40,24 +33,24 @@ const HardwarePanel = ({ systemData }) => {
         <div className="hardware-info">
           <div className="info-row">
             <span className="label">Modelo:</span>
-            <span className="value">{systemData.cpu?.brand || 'Intel Core i7-10700K'}</span>
+            <span className="value">{systemData.cpu?.brand || 'Desconocido'}</span>
           </div>
           <div className="info-row">
             <span className="label">Núcleos:</span>
-            <span className="value">{systemData.cpu?.cores || 8} ({(systemData.cpu?.physicalCores || 4)} físicos)</span>
+            <span className="value">{systemData.cpu?.cores || 0} ({(systemData.cpu?.physicalCores || 0)} físicos)</span>
           </div>
           <div className="info-row">
             <span className="label">Frecuencia:</span>
-            <span className="value">{systemData.cpu?.speed || 3.8} GHz</span>
+            <span className="value">{systemData.cpu?.speed || 0} GHz</span>
           </div>
           <div className="info-row">
             <span className="label">Uso actual:</span>
             <span className="value">
-              {performanceData.cpuUsage.toFixed(1)}%
+              {realTimeData?.cpu?.usage?.toFixed(1) || 0}%
               <div className="usage-bar">
                 <div 
                   className="usage-fill" 
-                  style={{width: `${performanceData.cpuUsage}%`}}
+                  style={{width: `${realTimeData?.cpu?.usage || 0}%`}}
                 ></div>
               </div>
             </span>
@@ -70,20 +63,20 @@ const HardwarePanel = ({ systemData }) => {
         <div className="hardware-info">
           <div className="info-row">
             <span className="label">Total:</span>
-            <span className="value">{systemData.memory?.total ? (systemData.memory.total / (1024 ** 3)).toFixed(2) : 16} GB</span>
+            <span className="value">{systemData.memory?.total ? (systemData.memory.total / (1024 ** 3)).toFixed(2) : 0} GB</span>
           </div>
           <div className="info-row">
             <span className="label">Disponible:</span>
-            <span className="value">{systemData.memory?.available ? (systemData.memory.available / (1024 ** 3)).toFixed(2) : 5.2} GB</span>
+            <span className="value">{systemData.memory?.available ? (systemData.memory.available / (1024 ** 3)).toFixed(2) : 0} GB</span>
           </div>
           <div className="info-row">
             <span className="label">Uso actual:</span>
             <span className="value">
-              {performanceData.memoryUsage.toFixed(1)}%
+              {realTimeData?.memory?.usage?.toFixed(1) || 0}%
               <div className="usage-bar">
                 <div 
                   className="usage-fill" 
-                  style={{width: `${performanceData.memoryUsage}%`}}
+                  style={{width: `${realTimeData?.memory?.usage || 0}%`}}
                 ></div>
               </div>
             </span>
@@ -93,23 +86,23 @@ const HardwarePanel = ({ systemData }) => {
       
       <div className="hardware-section">
         <h3>Almacenamiento</h3>
-        {diskInfo ? (
+        {diskUsage && diskUsage.length > 0 ? (
           <div className="disks-list">
-            {diskInfo.map((disk, index) => (
+            {diskUsage.map((disk, index) => (
               <div key={index} className="disk-info">
                 <div className="disk-header">
-                  <span className="disk-name">{disk.name}</span>
-                  <span className="disk-size">{disk.total} GB total</span>
+                  <span className="disk-name">{disk.mount}</span>
+                  <span className="disk-size">{(disk.size / (1024 ** 3)).toFixed(2)} GB total</span>
                 </div>
                 <div className="disk-usage">
                   <div className="usage-info">
-                    <span>{disk.used} GB usado de {disk.total} GB</span>
-                    <span>{disk.usage}%</span>
+                    <span>{(disk.used / (1024 ** 3)).toFixed(2)} GB usado de {(disk.size / (1024 ** 3)).toFixed(2)} GB</span>
+                    <span>{disk.use}%</span>
                   </div>
                   <div className="usage-bar">
                     <div 
                       className="usage-fill" 
-                      style={{width: `${disk.usage}%`}}
+                      style={{width: `${disk.use}%`}}
                     ></div>
                   </div>
                 </div>
@@ -126,11 +119,11 @@ const HardwarePanel = ({ systemData }) => {
         <div className="hardware-info">
           <div className="info-row">
             <span className="label">Modelo:</span>
-            <span className="value">NVIDIA GeForce RTX 3070</span>
+            <span className="value">{systemData.graphics?.controllers?.[0]?.model || 'No detectado'}</span>
           </div>
           <div className="info-row">
             <span className="label">VRAM:</span>
-            <span className="value">8 GB GDDR6</span>
+            <span className="value">{systemData.graphics?.controllers?.[0]?.vram ? `${systemData.graphics.controllers[0].vram} MB` : 'No disponible'}</span>
           </div>
         </div>
       </div>
