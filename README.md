@@ -1,16 +1,29 @@
 
 # system-monitor-dashboard
-=======
-# Debian System Monitor Dashboard
 
 Sistema de monitoreo y gestión para Debian con interfaz web moderna.
+
+!# System Monitor Dashboard
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
-![Debian](https://img.shields.io/badge/Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Debian](https://img.shields.io/badge/Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white)
+![NPM](https://img.shields.io/badge/NPM-%23CB3837.svg?style=for-the-badge&logo=npm&logoColor=white)
+![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white)
+![Visual Studio Code](https://img.shields.io/badge/Visual%20Studio%20Code-0078d7.svg?style=for-the-badge&logo=visual-studio-code&logoColor=white)
+![REST API](https://img.shields.io/badge/REST-API-ff69b4?style=for-the-badge)
+![JSON](https://img.shields.io/badge/JSON-000000?style=for-the-badge&logo=json&logoColor=white)
+![Responsive](https://img.shields.io/badge/Responsive-Design-green?style=for-the-badge)
+![Dashboard](https://img.shields.io/badge/Dashboard-UI-important?style=for-the-badge)
+
+![GitHub last commit](https://img.shields.io/github/last-commit/jadm2907/system-monitor-dashboard?style=for-the-badge)
+![GitHub issues](https://img.shields.io/github/issues/jadm2907/system-monitor-dashboard?style=for-the-badge)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/jadm2907/system-monitor-dashboard?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/jadm2907/system-monitor-dashboard?style=for-the-badge)
 
 ## ✨ Características
 
