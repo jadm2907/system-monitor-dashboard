@@ -89,36 +89,59 @@ npm run build
 
 ```
 system-monitor-dashboard/
-├── public/                 # Archivos públicos
-│   ├── index.html         # HTML principal
-│   └── favicon.ico        # Icono de la aplicación
-├── src/
-│   ├── components/        # Componentes React
-│   │   ├── Dashboard.jsx  # Componente principal
-│   │   ├── HardwarePanel.jsx # Panel de hardware
-│   │   ├── SecurityPanel.jsx # Panel de seguridad
-│   │   ├── NetworkPanel.jsx  # Panel de red
-│   │   ├── ProcessesPanel.jsx # Panel de procesos
-│   │   ├── MaintenancePanel.jsx # Panel de mantenimiento
-│   │   ├── RealTimeCharts.jsx # Gráficos tiempo real
-│   │   ├── Sidebar.jsx    # Barra lateral
-│   │   └── SystemOverview.jsx # Vista general
-│   ├── services/          # Servicios de datos
-│   │   ├── systemService.js  # Datos del sistema
-│   │   ├── securityService.js # Servicios de seguridad
-│   │   ├── networkService.js # Servicios de red
-│   │   └── processService.js # Gestión de procesos
-│   ├── utils/             # Utilidades
-│   │   ├── helpers.js     # Funciones auxiliares
-│   │   ├── securityScans.js # Escaneos de seguridad
-│   │   └── maintenanceChecker.js # Verificación mantenimiento
-│   ├── styles/            # Estilos CSS
-│   │   ├── App.css        # Estilos principales
-│   │   ├── Dashboard.css  # Estilos del dashboard
-│   │   └── Components.css # Estilos de componentes
-│   ├── App.js             # Componente principal
-│   └── index.js           # Punto de entrada
-├── package.json           # Dependencias del proyecto
+├── backend/                 # Servidor backend
+│   ├── services/
+│   │   └── systemData.js    # Servicio de datos del sistema
+│   ├── package.json         # Dependencias del backend
+│   ├── package-lock.json    # Lockfile de dependencias
+│   └── server.js           # Servidor principal
+├── frontend/               # Aplicación React
+│   ├── public/             # Archivos públicos
+│   │   ├── index.html      # HTML principal
+│   │   ├── favicon.ico     # Icono de la aplicación
+│   │   ├── logo192.png     # Logo 192px
+│   │   ├── logo512.png     # Logo 512px
+│   │   ├── manifest.json   # Configuración PWA
+│   │   └── robots.txt      # Configuración para bots
+│   ├── src/
+│   │   ├── components/     # Componentes React
+│   │   │   ├── Dashboard.jsx          # Componente principal
+│   │   │   ├── HardwarePanel.jsx      # Panel de hardware
+│   │   │   ├── SecurityPanel.jsx      # Panel de seguridad
+│   │   │   ├── NetworkPanel.jsx       # Panel de red
+│   │   │   ├── ProcessesPanel.jsx     # Panel de procesos
+│   │   │   ├── MaintenancePanel.jsx   # Panel de mantenimiento
+│   │   │   ├── RealTimeCharts.jsx     # Gráficos tiempo real
+│   │   │   ├── Sidebar.jsx            # Barra lateral
+│   │   │   └── SystemOverview.jsx     # Vista general
+│   │   ├── hooks/          # Custom React Hooks
+│   │   ├── services/       # Servicios de datos
+│   │   │   ├── systemService.js       # Datos del sistema
+│   │   │   ├── securityService.js     # Servicios de seguridad
+│   │   │   ├── networkService.js      # Servicios de red
+│   │   │   ├── processService.js      # Gestión de procesos
+│   │   │   └── socketService.js       # Servicio de sockets
+│   │   ├── utils/          # Utilidades
+│   │   │   ├── helpers.js             # Funciones auxiliares
+│   │   │   ├── securityScans.js       # Escaneos de seguridad
+│   │   │   └── maintenanceChecker.js  # Verificación mantenimiento
+│   │   ├── styles/         # Estilos CSS
+│   │   │   ├── App.css                # Estilos principales
+│   │   │   ├── Dashboard.css          # Estilos del dashboard
+│   │   │   └── Components.css         # Estilos de componentes
+│   │   ├── App.js          # Componente principal
+│   │   ├── App.css         # Estilos del App
+│   │   ├── App.test.js     # Tests del App
+│   │   ├── index.js        # Punto de entrada
+│   │   ├── index.css       # Estilos globales
+│   │   ├── logo.svg        # Logo SVG
+│   │   ├── reportWebVitals.js # Métricas web
+│   │   └── setupTests.js   # Configuración de tests
+│   ├── package.json        # Dependencias del frontend
+│   └── package-lock.json   # Lockfile de dependencias
+├── package.json           # Scripts globales
+├── package-lock.json      # Lockfile global
+├── LICENSE               # Licencia del proyecto
 └── README.md             # Documentación
 ```
 
@@ -175,26 +198,47 @@ El proyecto incluye configuración para:
 
 ### Desarrollo
 ```bash
-npm start
-# Abre http://localhost:3000
+# Ejecutar ambos servicios (frontend y backend)
+npm run dev
+
+# Frontend: http://localhost:3000
+# Backend: http://localhost:5000
 ```
 
 ### Producción
 ```bash
+# Construir frontend
+cd frontend
 npm run build
-# Sirve los archivos de la carpeta 'build'
+
+# Ejecutar backend en producción
+cd ../backend
+npm start
 ```
 
 ### Docker (Opcional)
 ```dockerfile
+# Backend Dockerfile
 FROM node:16-alpine
-WORKDIR /app
-COPY package*.json ./
+WORKDIR /app/backend
+COPY backend/package*.json ./
 RUN npm install
-COPY . .
-RUN npm run build
-EXPOSE 3000
+COPY backend/ .
+EXPOSE 5000
 CMD ["npm", "start"]
+
+# Frontend Dockerfile
+FROM node:16-alpine as build
+WORKDIR /app/frontend
+COPY frontend/package*.json ./
+RUN npm install
+COPY frontend/ .
+RUN npm run build
+
+FROM nginx:alpine
+COPY --from=build /app/frontend/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
 ```
 
 ## 🤝 Contribución
