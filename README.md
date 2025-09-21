@@ -3,7 +3,7 @@
 
 Sistema de monitoreo y gestión para Debian con interfaz web moderna.
 
-!# System Monitor Dashboard
+# System Monitor Dashboard
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
@@ -23,7 +23,7 @@ Sistema de monitoreo y gestión para Debian con interfaz web moderna.
 ![GitHub last commit](https://img.shields.io/github/last-commit/jadm2907/system-monitor-dashboard?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues/jadm2907/system-monitor-dashboard?style=for-the-badge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/jadm2907/system-monitor-dashboard?style=for-the-badge)
-![GitHub](https://img.shields.io/github/license/jadm2907/system-monitor-dashboard?style=for-the-badge)
+![GitHub](https://img.shields.io/github/license/jadm2907/system-monitor-dashboard?style=for-the-badge))
 
 ## ✨ Características
 
