@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # system-monitor-dashboard
 =======
 # Debian System Monitor Dashboard
@@ -223,4 +223,4 @@ Si encuentras algún problema o tienes preguntas:
 **¿Te gusta el proyecto? ¡Dale una estrella ⭐ en GitHub!**
 
 Desarrollado con ❤️ para la comunidad Debian
->>>>>>> 77e0b9f (Initial commit: Sistema de monitoreo para Debian)
+
